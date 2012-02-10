@@ -1,6 +1,17 @@
 #!/usr/bin/perl -w
 
-# Copyright (c) 2012 Philip Jacob <phil@whirlycott.com>
+# Copyright 2012 Philip Jacob <phil@whirlycott.com>
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+# http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
 use strict;
 use warnings;
@@ -47,6 +58,8 @@ debug("Trying to resize $url to $x x $y");
 
 # Verify the checksum.  The purpose of this is to stop people from using your webservice without 
 # your authorization.  This is a heavy script and it would be no big deal to cause a DoS attack.
+# I know you think that a simple sha1 will suffice, but you would be wrong.
+# See http://benlog.com/articles/2008/06/19/dont-hash-secrets/
 my $digest = hmac_sha1_hex("$x $y $en_url", $secret);
 if ($digest ne $hmac) {
 	fatal("Checksum mismatch: $digest");
