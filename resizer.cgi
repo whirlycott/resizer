@@ -62,7 +62,7 @@ debug("Trying to resize $url to $x x $y");
 # See http://benlog.com/articles/2008/06/19/dont-hash-secrets/
 my $digest = hmac_sha1_hex("$x $y $en_url", $secret);
 if ($digest ne $hmac) {
-	fatal("Checksum mismatch: $hmac");
+	fatal("Checksum mismatch: $hmac; x: $x; y: $y");
 }
 
 # Validate the params.
@@ -95,10 +95,21 @@ if ($calculated_x <= $x && $calculated_y <= $y) {
     debug("Padding...");
     $command = "anytopnm $input | pnmpad -white -width=$x -height=$y -halign=0.5 -valign=0.5 | pnmtojpeg -quality=$quality > $output";
 
+} elsif ($x == -1) {
+   # Scale it down
+    debug("Scaling down...");
+    $command = "anytopnm $input | pamscale -ysize $y | pnmtojpeg -quality=$quality > $output";
+
+} elsif ($y == -1) {
+	# Scale it down
+    debug("Scaling down...");
+    $command = "anytopnm $input | pamscale -xsize $x | pnmtojpeg -quality=$quality > $output";
+
+
 } else {
     # Scale it down
     debug("Scaling down...");
-    $command = "anytopnm $input | pamscale -xyfit $x $y | pnmpad -white -width=$x -height=$y -halign=0.5 -valign=0.5 | pnmtojpeg -quality=$quality > $output";
+    $command = "anytopnm $input | pamscale -xsize $x | pnmpad -white -width=$x -height=$y -halign=0.5 -valign=0.5 | pnmtojpeg -quality=$quality > $output";
 }
 
 # Kick off the resizing.
