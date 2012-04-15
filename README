@@ -2,7 +2,7 @@ This is the guts of a webservice to resize images.  We used something very much 
 resize well over 40M images and had no troubles with it at all.  It takes pretty much any format and basically 
 works unattended.  
 
-We ran this on a cluster of EC2 boxes.  You can make the URLs friendlier using some basich Apache or Nginx rules:
+We ran this on a cluster of EC2 boxes.  You can make the URLs friendlier using some basic Apache or Nginx rules:
 
 	http://some-server.tld/some-path/x/y/base64-url/hmac
 
@@ -16,7 +16,7 @@ Basically, you just need to provide four parameters to the script:
 The first few are easy.  The HMAC warrants some explanation.  When you have a service like this and you leave 
 it wide open to the interwebs, fools may abuse it.  In order to prevent such menacing behavior, this script 
 provides some protection by requiring the client that calls it to know a secret key.  The short story of why 
-you I do not rely on a basic sha1 or some such fingerprint is that you should not hash secrets.  Since the 
+you do not rely on a basic sha1 or some such fingerprint is that you should not hash secrets.  Since the 
 key is a secret, we use HMAC.  
 
 Feb 9, 2012
