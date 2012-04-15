@@ -62,7 +62,7 @@ debug("Trying to resize $url to $x x $y");
 # See http://benlog.com/articles/2008/06/19/dont-hash-secrets/
 my $digest = hmac_sha1_hex("$x $y $en_url", $secret);
 if ($digest ne $hmac) {
-	fatal("Checksum mismatch: $digest");
+	fatal("Checksum mismatch: $hmac");
 }
 
 # Validate the params.
